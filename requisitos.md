@@ -17,12 +17,12 @@
 - RF-008: O sistema deve garantir que o Horário de Partida não possa ter variação superior a 15 minutos em relação ao horário padrão de trabalho do motorista.
 
 ### RN-004: Reserva de Assento
-- RF-009: O sistema deve permitir a reserva de assento por um colaborador (passageiro elegível) em uma rota, desde que não seja o motorista da rota.
+- RF-009: O sistema deve permitir a reserva de assento por um colaborador (passageiro elegível) em uma rota, desde que não seja o motorista da rota. ok 
 - RF-010: O sistema deve atualizar imediatamente os assentos disponíveis após a confirmação de uma reserva.
-Outros Requisitos Funcionais
-- RF-011: O sistema deve calcular a Ocupação Média de passageiros por veículo em um determinado período.
-- RF-012: O sistema deve executar um algoritmo para encontrar motoristas e passageiros com rotas e horários compatíveis (Pareamento de Rotas).
-- RF-013: O sistema deve registrar a confirmação da presença dos passageiros (Check-in) no início da carona e a confirmação de chegada (Check-out) no final da carona.
+Outros Requisitos Funcionais ok
+- RF-011: O sistema deve calcular a Ocupação Média de passageiros por veículo em um determinado período. (FALTA)
+- RF-012: O sistema deve executar um algoritmo para encontrar motoristas e passageiros com rotas e horários compatíveis (Pareamento de Rotas). (FALTA)
+- RF-013: O sistema deve registrar a confirmação da presença dos passageiros (Check-in) no início da carona e a confirmação de chegada (Check-out) no final da carona. ok
 
 ### RN-005: Solicitação de Reembolso
 - RF-014: O sistema deve emitir o reembolso automaticamente após o check-in e check-out de 100% dos passageiros.

@@ -1,0 +1,20 @@
+@startuml Reserva de Assentos
+
+left to right direction
+
+actor Passageiro
+
+usecase "Solicitar reserva de assento" as cadRes
+usecase "Verificar se é um passageiro elegível" as cadRes_VeriPassa
+usecase "Atualizar assentos disponíveis" as cadRes_AtlAsse
+usecase "Realizar check-in" as cadRes_checkIn
+usecase "Realizar check-out" as cadRes_checkOut
+
+
+Passageiro --> cadRes
+cadRes ..> cadRes_VeriPassa: <<include>>
+cadRes ..> cadRes_AtlAsse: <<include>>
+Passageiro ..> cadRes_checkIn: <<extend>>
+Passageiro ..> cadRes_checkOut: <<extend>>
+
+@enduml
