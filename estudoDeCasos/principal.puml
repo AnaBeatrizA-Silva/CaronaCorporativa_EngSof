@@ -1,0 +1,8 @@
+@startuml Principal
+
+!include cadastroMotorista.puml
+!include cadastroVeiculo.puml
+!include cadastroRota.puml
+
+
+@enduml
