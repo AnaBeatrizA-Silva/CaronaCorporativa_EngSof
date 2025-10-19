@@ -2,16 +2,16 @@
 
 ## Requisitos Funcionais (RF)
 
-### RN-001: Cadastro de Motorista e Veículo
+### RN-001: Cadastro de Motorista e Veículo ✔
 - RF-001: O sistema deve permitir o cadastro de um motorista mediante a apresentação de CNH válida.
 - RF-002: O sistema deve gerar um ID único automaticamente para cada motorista cadastrado.
 - RF-003: O sistema deve permitir o cadastro de um veículo, definindo sua Placa e Capacidade Máxima de Assentos.
 - RF-004: O sistema deve garantir que a capacidade total de assentos (passageiros + motorista) não exceda o limite legal do veículo.
 
-### RN-002: Controle de Duplicidade
+### RN-002: Controle de Duplicidade ✔
 - RF-005: O sistema deve impedir o cadastro de colaboradores (motoristas ou passageiros) com matrícula idêntica.
 
-### RN-003: Oferta de Rota
+### RN-003: Oferta de Rota ✔
 - RF-006: O sistema deve permitir que um motorista defina uma Rota com Endereço de Partida e Chegada obrigatórios (sempre para a sede da empresa).
 - RF-007: O sistema deve permitir que o motorista defina o Horário de Partida da Rota.
 - RF-008: O sistema deve garantir que o Horário de Partida não possa ter variação superior a 15 minutos em relação ao horário padrão de trabalho do motorista.
@@ -23,7 +23,6 @@ Outros Requisitos Funcionais
 - RF-011: O sistema deve calcular a Ocupação Média de passageiros por veículo em um determinado período.
 - RF-012: O sistema deve executar um algoritmo para encontrar motoristas e passageiros com rotas e horários compatíveis (Pareamento de Rotas).
 - RF-013: O sistema deve registrar a confirmação da presença dos passageiros (Check-in) no início da carona e a confirmação de chegada (Check-out) no final da carona.
-
 
 ### RN-005: Solicitação de Reembolso
 - RF-014: O sistema deve emitir o reembolso automaticamente após o check-in e check-out de 100% dos passageiros.
