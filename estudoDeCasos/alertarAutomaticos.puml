@@ -1,0 +1,19 @@
+@startuml Alertar Automáticos
+
+left to right direction
+
+actor Sistema
+actor Passageiro
+actor Coordenador_Logistica
+
+rectangle "Alertar Automáticos" {
+    usecase "Enviar notificação push 15 minutos antes da partida" as alertaAtu_NotfPush
+    usecase "Enviar alerta de cancelamento de rota crítica" as alerAtu_NotfCrit
+}
+
+Sistema --> alertaAtu_NotfPush
+alertaAtu_NotfPush --> Passageiro
+Sistema --> alerAtu_NotfCrit
+alerAtu_NotfCrit --> Coordenador_Logistica
+
+@enduml

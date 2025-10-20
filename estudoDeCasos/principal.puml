@@ -3,6 +3,8 @@
 !include cadastroMotorista.puml
 !include cadastroVeiculo.puml
 !include cadastroRota.puml
-
+!include reserveAssentos.puml
+!include solicitacaoReembolso.puml
+!include alertarAutomaticos.puml
 
 @enduml

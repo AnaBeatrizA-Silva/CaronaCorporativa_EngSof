@@ -18,23 +18,23 @@
 
 ### RN-004: Reserva de Assento
 - RF-009: O sistema deve permitir a reserva de assento por um colaborador (passageiro elegível) em uma rota, desde que não seja o motorista da rota. ok 
-- RF-010: O sistema deve atualizar imediatamente os assentos disponíveis após a confirmação de uma reserva.
-Outros Requisitos Funcionais ok
-- RF-011: O sistema deve calcular a Ocupação Média de passageiros por veículo em um determinado período. (FALTA)
-- RF-012: O sistema deve executar um algoritmo para encontrar motoristas e passageiros com rotas e horários compatíveis (Pareamento de Rotas). (FALTA)
+- RF-010: O sistema deve atualizar imediatamente os assentos disponíveis após a confirmação de uma reserva. ok
+- RF-011: O sistema deve calcular a Ocupação Média de passageiros por veículo em um determinado período. **(FALTA)**
+- RF-012: O sistema deve executar um algoritmo para encontrar motoristas e passageiros com rotas e horários compatíveis (Pareamento de Rotas). **(FALTA)**
 - RF-013: O sistema deve registrar a confirmação da presença dos passageiros (Check-in) no início da carona e a confirmação de chegada (Check-out) no final da carona. ok
 
-### RN-005: Solicitação de Reembolso
+### RN-005: Solicitação de Reembolso ✔
 - RF-014: O sistema deve emitir o reembolso automaticamente após o check-in e check-out de 100% dos passageiros.
 - RF-015: O sistema deve calcular o valor do reembolso com base na tabela fixa de custo por km previamente cadastrada.
 
-### RN-006: Validação de Reembolso
+### RN-006: Validação de Reembolso ✔
 - RF-016: O sistema deve processar reembolsos apenas se a carona tiver sido realizada em um raio mínimo de 10 km da sede da empresa.
 
 
-### RN-007: Níveis de Ocupação Mínima
-- RF-017: O sistema deve alertar o motorista se a carona tiver menos de 2 passageiros até 1 hora antes da partida (risco de cancelamento).
-RN-008: Alertas Automáticos
+### RN-007: Níveis de Ocupação Mínima ✔
+- RF-017: O sistema deve alertar o motorista se a carona tiver menos de 2 passageiros até 1 hora antes da partida (risco de cancelamento). 
+
+### RN-008: Alertas Automáticos
 - RF-018: O sistema deve enviar uma notificação push para todos os envolvidos (Carona Iminente) 15 minutos antes do horário de partida.
 - RF-019: O sistema deve enviar um alerta imediato ao Coordenador de Logística se uma Rota Crítica for cancelada.
 
@@ -48,7 +48,7 @@ Objetivos Principais
 - RF-024: O sistema deve manter histórico completo e auditável de rotas e ocupação.
 Requisitos Não Funcionais (RNF)
 
----
+-------
 
 ### RNF de Usabilidade e Acessibilidade
 - Usabilidade: RNF-001: O sistema deve ter uma interface que minimize a comunicação manual e a criação de grupos de caronas. (Baseado em: Problema Atual: Tempo excessivo na comunicação manual.)

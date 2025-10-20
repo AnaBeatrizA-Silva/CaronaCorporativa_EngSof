@@ -3,17 +3,26 @@
 left to right direction
 
 actor Passageiro
+actor Motorista
+actor Sistema
 
-usecase "Solicitar reserva de assento" as cadRes
-usecase "Verificar se é um passageiro elegível" as cadRes_VeriPassa
-usecase "Atualizar assentos disponíveis" as cadRes_AtlAsse
-usecase "Realizar check-in" as cadRes_checkIn
-usecase "Realizar check-out" as cadRes_checkOut
+rectangle "Reserva de Assentos" {
+    usecase "Solicitar reserva de assento" as cadRes
+    usecase "Verificar se é um passageiro elegível" as cadRes_VeriPassa
+    usecase "Atualizar assentos disponíveis" as cadRes_AtlAsse
+    usecase "Enviar alerta de baixa ocupação" as cadRes_Alerta
+    usecase "Realizar check-in" as cadRes_checkIn
+    usecase "Realizar check-out" as cadRes_checkOut
+}
 
 
-Passageiro --> cadRes
+Passageiro --> cadRes 
 cadRes ..> cadRes_VeriPassa: <<include>>
 cadRes ..> cadRes_AtlAsse: <<include>>
+cadRes_AtlAsse ..> cadRes_Alerta: <<extend>>
+'Sem certeza que está certo:
+Sistema -->  cadRes_Alerta 
+cadRes_Alerta --> Motorista
 Passageiro ..> cadRes_checkIn: <<extend>>
 Passageiro ..> cadRes_checkOut: <<extend>>
 
