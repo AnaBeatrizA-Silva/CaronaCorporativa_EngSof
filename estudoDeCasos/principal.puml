@@ -6,5 +6,8 @@
 !include reserveAssentos.puml
 !include solicitacaoReembolso.puml
 !include alertarAutomaticos.puml
+!include pareamentoRotas.puml
+
+
 
 @enduml
