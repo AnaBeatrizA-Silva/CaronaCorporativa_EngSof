@@ -19,11 +19,11 @@ rectangle "Reserva de Assentos" {
 Passageiro --> cadRes 
 cadRes ..> cadRes_VeriPassa: <<include>>
 cadRes ..> cadRes_AtlAsse: <<include>>
-cadRes_AtlAsse ..> cadRes_Alerta: <<extend>>
+cadRes_AtlAsse <.. cadRes_Alerta: <<extend>>
 'Sem certeza que está certo:
 Sistema -->  cadRes_Alerta 
 cadRes_Alerta --> Motorista
-Passageiro ..> cadRes_checkIn: <<extend>>
+Passageiro --> cadRes_checkIn: <<extend>>
 Passageiro ..> cadRes_checkOut: <<extend>>
 
 @enduml
