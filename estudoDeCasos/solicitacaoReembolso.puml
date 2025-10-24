@@ -2,7 +2,7 @@
 
 left to right direction
 
-actor Sistema
+actor Financeiro
 actor Motorista
 
 rectangle "Solicitacao Reembolso" {
@@ -12,9 +12,9 @@ rectangle "Solicitacao Reembolso" {
     usecase "Emitir reembolso" as soliReem_emitReem
 }
 
-Sistema --> soliReem_Verf10
+Financeiro --> soliReem_Verf10
 soliReem_Verf10 .> soliReem_InOut: <<include>>
-soliReem_InOut ..> soliReem_Calc: <<include>>
+soliReem_InOut <.. soliReem_Calc: <<extend>>
 soliReem_Calc ..> soliReem_emitReem: <<include>>
 soliReem_emitReem -> Motorista
 

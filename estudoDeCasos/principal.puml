@@ -8,6 +8,4 @@
 !include alertarAutomaticos.puml
 !include pareamentoRotas.puml
 
-
-
 @enduml

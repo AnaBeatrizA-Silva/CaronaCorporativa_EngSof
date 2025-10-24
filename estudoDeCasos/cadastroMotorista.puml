@@ -4,7 +4,6 @@ left to right direction
 
 actor RH
 rectangle "Cadastro de Motorista" as CadMot {
-  usecase "Cadastro de motorista" as cadMot
   usecase "Preencher as informações básicas" as cadMot_Info
   usecase "Validar CNH" as cadMot_ValiCNH
   usecase "CNH inválida" as cadMot_InvaCNH
@@ -13,13 +12,11 @@ rectangle "Cadastro de Motorista" as CadMot {
   usecase "ID inválido, já está em uso" as cadMot_InvaID
 }
 
-
-RH --> cadMot
-cadMot ..> cadMot_Info: <<include>>
+RH --> cadMot_Info
 cadMot_Info .down.> cadMot_ValiCNH: <<include>>
-cadMot_ValiCNH ..> cadMot_ID: <<extend>>
-cadMot_ValiCNH .up.> cadMot_InvaCNH: <<extend>>
+cadMot_ValiCNH <.. cadMot_ID: <<extend>>
+cadMot_ValiCNH <.up. cadMot_InvaCNH: <<extend>>
 cadMot_ID .down.> cadMot_ValiID: <<include>>
-cadMot_ValiID .up.> cadMot_InvaID: <<extend>>
+cadMot_ValiID <.up. cadMot_InvaID: <<extend>>
 
 @enduml

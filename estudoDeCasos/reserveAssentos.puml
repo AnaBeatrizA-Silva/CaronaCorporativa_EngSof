@@ -4,7 +4,6 @@ left to right direction
 
 actor Passageiro
 actor Motorista
-actor Sistema
 
 rectangle "Reserva de Assentos" {
     usecase "Solicitar reserva de assento" as cadRes
@@ -20,10 +19,10 @@ Passageiro --> cadRes
 cadRes ..> cadRes_VeriPassa: <<include>>
 cadRes ..> cadRes_AtlAsse: <<include>>
 cadRes_AtlAsse <.. cadRes_Alerta: <<extend>>
-'Sem certeza que está certo:
-Sistema -->  cadRes_Alerta 
 cadRes_Alerta --> Motorista
-Passageiro --> cadRes_checkIn: <<extend>>
-Passageiro ..> cadRes_checkOut: <<extend>>
+Passageiro --> cadRes_checkIn
+Motorista --> cadRes_checkIn
+Motorista --> cadRes_checkOut
+
 
 @enduml

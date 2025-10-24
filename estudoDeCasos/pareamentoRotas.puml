@@ -2,7 +2,6 @@
 
 left to right direction
 
-actor Sistema
 actor Motorista
 actor Passageiro
 
@@ -12,10 +11,9 @@ rectangle "Pareamento de Rotas" {
     usecase "Sugerir pareamentos compatíveis" as pareRotas_SugPare
 }
 
-Sistema --> pareRotas_ColetInfo
+Motorista --> pareRotas_ColetInfo
+Passageiro --> pareRotas_ColetInfo
 pareRotas_ColetInfo ..> pareRotas_CompHorDest: <<include>>
 pareRotas_CompHorDest ..> pareRotas_SugPare: <<include>>
-pareRotas_SugPare --> Motorista
-pareRotas_SugPare --> Passageiro
 
 @enduml

@@ -9,13 +9,11 @@ rectangle "Cadastro de Rotas" {
     usecase "Preencher Endereço Final" as cadRota_EndFinal
     usecase "Verificar se endereço final é a sede da empresa" as cadRota_VeriEndFinal
     usecase "Definir horário de partida" as cadRota_DefiHoraPart
-    usecase "Verificar tolerância de 15 minutos para inicío da partida" as cadRota_VeriTolePart
 }
 
 Motorista --> cadRota_EndPart
 Motorista --> cadRota_EndFinal
 Motorista --> cadRota_DefiHoraPart
 cadRota_EndFinal ..> cadRota_VeriEndFinal: <<include>>
-cadRota_DefiHoraPart ..> cadRota_VeriTolePart: <<includee>>
 
 @enduml
