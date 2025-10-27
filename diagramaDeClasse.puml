@@ -1,0 +1,25 @@
+@startuml Diagrama de Classe 
+
+skinparam classAttributeIconSize 0
+
+class Funcionario {
+    + daskd
+}
+
+class Motorista {
+
+}
+
+class Endereco {
+
+}
+
+class Rotas {
+
+}
+
+class Veiculo {
+
+}
+
+@enduml
