@@ -1,7 +1,6 @@
 @startuml Diagrama de Classe
 
 skinparam classAttributeIconSize 0
-
 left to right direction
 
 class Funcionario {
@@ -19,15 +18,16 @@ class Motorista {
 
     + validarCNH(): boolean
     + cadastrarRota(): void
-    + emitirReembolso(): void
+    + realizarCheckOut(): void
+    + solicitarReembolso(): void
 }
 
 class Passageiro {
     - numeroCartao : String
+    - pontoOrigem: String
 
     + solicitarReserva(): void
     + realizarCheckIn(): void
-    + realizarCheckOut(): void
 }
 
 class Veiculo {
@@ -96,9 +96,11 @@ Motorista "1" -- "1" Veiculo
 Motorista "1" -- "1..*" Rota 
 Rota "1" -- "0..*" Reserva  
 Passageiro "1" -- "0..*" Reserva 
-Reserva "1" -- "0..1" Reembolso 
-Rota "1" -- "0..1" PareamentoRota 
-Alerta "0..*" -- "1" Motorista 
-Alerta "0..*" -- "1" Passageiro
+Motorista "1" -- "0..1" Reembolso
+Reembolso "1" -- "1" Rota 
+Motorista "1" -- "1..*" PareamentoRota 
+PareamentoRota "1..*" -- "1" Passageiro
+Alerta "0..*" -- "1" Funcionario 
+
 
 @enduml
