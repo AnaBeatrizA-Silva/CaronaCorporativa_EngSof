@@ -26,9 +26,7 @@
 ### RN-005: Solicitação de Reembolso 
 - RF-014: O sistema deve emitir o reembolso automaticamente após o check-in e check-out de 100% dos passageiros.
 - RF-015: O sistema deve calcular o valor do reembolso com base na tabela fixa de custo por km previamente cadastrada.
-
-### RN-006: Validação de Reembolso 
-- RF-016: O sistema deve processar reembolsos apenas se a carona tiver sido realizada em um raio mínimo de 10 km da sede da empresa.
+- RF-016: O sistema deve validar e processar os reembolsos automaticamente
 
 ### RN-007: Níveis de Ocupação Mínima 
 - RF-017: O sistema deve alertar o motorista se a carona tiver menos de 2 passageiros até 1 hora antes da partida (risco de cancelamento). 
@@ -71,4 +69,7 @@ Requisitos Não Funcionais (RNF)
 Objetivos Secundários
 - RNF-014: O sistema deve fornecer visibilidade em tempo real dos assentos disponíveis por rota.
 - RNF-015: O sistema deve manter histórico completo e auditável de rotas e ocupação.
+
+  ### RNF de Regra de Reembolsos
+- RNF-016: Reembolsos devem ser processados apenas se a carona tiver sido realizada em um raio mínimo de 10 km da sede da empresa. 
   
