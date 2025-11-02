@@ -1,0 +1,19 @@
+@startuml Cadastro de Rotas
+
+left to right direction
+
+actor Motorista
+
+rectangle "Cadastro de Rotas" {
+    usecase "Preencher Endereço de Partida" as cadRota_EndPart
+    usecase "Preencher Endereço Final" as cadRota_EndFinal
+    usecase "Verificar se endereço final é a sede da empresa" as cadRota_VeriEndFinal
+    usecase "Definir horário de partida" as cadRota_DefiHoraPart
+}
+
+Motorista --> cadRota_EndPart
+Motorista --> cadRota_EndFinal
+Motorista --> cadRota_DefiHoraPart
+cadRota_EndFinal ..> cadRota_VeriEndFinal: <<include>>
+
+@enduml

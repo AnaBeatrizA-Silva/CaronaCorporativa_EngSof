@@ -1,0 +1,19 @@
+@startuml Cadastro de Veículos
+
+left to right direction
+
+actor RH
+
+rectangle "Cadastro de Veículos" {
+    usecase "Preencher as informações básicas" as cadVei_Info
+    usecase "Validar capacidade total de assentos" as cadVei_ValiAssnts
+    usecase "Quantidade de assentos inválida" as cadVei_QntAssents
+}
+
+
+RH --> cadVei_Info
+cadVei_Info .down.> cadVei_ValiAssnts: <<include>>
+cadVei_ValiAssnts <.up. cadVei_QntAssents: <<extend>>
+
+
+@enduml

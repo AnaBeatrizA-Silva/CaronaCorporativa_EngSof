@@ -1,0 +1,22 @@
+@startuml Solicitacao de Reembolso
+
+left to right direction
+
+actor Financeiro
+actor Motorista
+
+rectangle "Solicitacao Reembolso" {
+    usecase "Verificar distância mínima de 10 km" as soliReem_Verf10
+    usecase "Verificar a conclusão da rota (check-in e check-out 100%)" as soliReem_InOut
+    usecase "Calcular o valor do reembolso" as soliReem_Calc
+    usecase "Emitir reembolso" as soliReem_emitReem
+}
+
+Financeiro --> soliReem_Verf10
+soliReem_Verf10 .> soliReem_InOut: <<include>>
+soliReem_InOut <.. soliReem_Calc: <<extend>>
+soliReem_Calc ..> soliReem_emitReem: <<include>>
+soliReem_emitReem -> Motorista
+
+
+@enduml

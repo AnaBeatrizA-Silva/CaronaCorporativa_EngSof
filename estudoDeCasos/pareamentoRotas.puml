@@ -1,0 +1,19 @@
+@startuml Pareamento de Rotas
+
+left to right direction
+
+actor Motorista
+actor Passageiro
+
+rectangle "Pareamento de Rotas" {
+    usecase "Coletar informações de rotas cadastradas" as pareRotas_ColetInfo
+    usecase "Comparar horários e destinos" as pareRotas_CompHorDest
+    usecase "Sugerir pareamentos compatíveis" as pareRotas_SugPare
+}
+
+Motorista --> pareRotas_ColetInfo
+Passageiro --> pareRotas_ColetInfo
+pareRotas_ColetInfo ..> pareRotas_CompHorDest: <<include>>
+pareRotas_CompHorDest ..> pareRotas_SugPare: <<include>>
+
+@enduml

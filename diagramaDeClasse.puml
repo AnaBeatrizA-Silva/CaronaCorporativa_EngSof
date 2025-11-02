@@ -1,0 +1,106 @@
+@startuml Diagrama de Classe
+
+skinparam classAttributeIconSize 0
+left to right direction
+
+class Funcionario {
+    - nome : String
+    - cpf : String
+    - cargo : String
+
+    + cadastrar(): void
+    + atualizarDados(): void
+    + consultar(): void
+}
+
+class Motorista {
+    - cnh : String
+
+    + validarCNH(): boolean
+    + cadastrarRota(): void
+    + realizarCheckOut(): void
+    + solicitarReembolso(): void
+}
+
+class Passageiro {
+    - numeroCartao : String
+    - pontoOrigem: String
+
+    + solicitarReserva(): void
+    + realizarCheckIn(): void
+}
+
+class Veiculo {
+    - idVeiculo: int
+    - placa: String
+    - marca: String
+    - modelo: String
+    - ano: int
+    - seguro: String
+    - capacidade: int
+
+    + validarCapacidade(): boolean
+    + cadastrarVeiculo(): void
+}
+
+class Rota {
+    - idRota: int
+    - enderecoPartida: String
+    - enderecoFinal: String
+    - horarioPartida: DateTime
+    - distanciaTotal: Double
+
+    + calcularDistancia(): Double
+    + verificarDestinoFinal(): boolean
+}
+
+class Reserva {
+    - idReserva: int
+    - status: String
+    - dataReserva: DateTime
+
+    + confirmarReserva(): void
+    + cancelarReserva(): void
+}
+
+class Reembolso {
+    - idReembolso: int
+    - dataEmissao: DateTime
+    - valor: Decimal
+
+    + calcularValor(): Decimal
+    + emitirReembolso(): void
+}
+
+class PareamentoRota {
+    - idPareamento: int
+    - nivelCompatibilidade: String
+
+    + compararRotas(): void
+    + sugerirPareamento(): void
+}
+
+class Alerta {
+    - idAlerta: int
+    - horarioEnvio: DateTime
+    - destinatario: String
+    - mensagem: String
+
+    + enviarNotificacao(): void
+}
+
+
+Funcionario <|-- Motorista
+Funcionario <|-- Passageiro
+Motorista "1" -- "1" Veiculo 
+Motorista "1" -- "1..*" Rota 
+Rota "1" -- "0..*" Reserva  
+Passageiro "1" -- "0..*" Reserva 
+Motorista "1" -- "0..1" Reembolso
+Reembolso "1" -- "1" Rota 
+Motorista "1" -- "1..*" PareamentoRota 
+PareamentoRota "1..*" -- "1" Passageiro
+Alerta "0..*" -- "1" Funcionario 
+
+
+@enduml
