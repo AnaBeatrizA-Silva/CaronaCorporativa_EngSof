@@ -1,0 +1,20 @@
+@startuml Relatórios Obrigatórios
+
+left to right direction
+
+actor Coordenador_Logistica
+
+rectangle "Relatórios Obrigatórios" {
+    usecase "Selecionar período para análise" as rel_SelecPeriodo
+    usecase "Coletar dados de uso do sistema" as rel_ColetarDados
+    usecase "Gerar relatório de frequência por colaborador" as rel_GerarRelatorio
+    usecase "Exportar relatório em PDF ou Excel" as rel_Exportar
+}
+
+Coordenador_Logistica --> rel_SelecPeriodo
+
+rel_SelecPeriodo ..> rel_ColetarDados : <<include>>
+rel_ColetarDados ..> rel_GerarRelatorio : <<include>>
+rel_GerarRelatorio <.. rel_Exportar : <<extend>>
+
+@enduml

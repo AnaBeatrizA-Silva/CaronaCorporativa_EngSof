@@ -38,9 +38,10 @@
 ### RN-009: Relatórios Obrigatórios
 - RF-020: O sistema deve gerar relatórios obrigatórios contendo a frequência de uso por colaborador.
 
-Requisitos Não Funcionais (RNF)
 
 -------
+
+## Requisitos Não Funcionais (RNF)
 
 ### RNF de Usabilidade e Acessibilidade
 - Usabilidade: RNF-001: O sistema deve ter uma interface que minimize a comunicação manual e a criação de grupos de caronas. 
