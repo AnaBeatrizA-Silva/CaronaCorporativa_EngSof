@@ -7,6 +7,7 @@ class Funcionario {
     - nome : String
     - cpf : String
     - cargo : String
+    - matricula: int
 
     + cadastrar(): void
     + atualizarDados(): void
@@ -23,7 +24,6 @@ class Motorista {
 }
 
 class Passageiro {
-    - numeroCartao : String
     - pontoOrigem: String
 
     + solicitarReserva(): void
