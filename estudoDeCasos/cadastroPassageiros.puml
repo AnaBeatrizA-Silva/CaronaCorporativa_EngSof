@@ -1,0 +1,24 @@
+@startuml Cadastro de Passageiro
+
+left to right direction
+
+actor RH
+rectangle "Cadastro de Passageiro" as CadPass {
+  usecase "Preencher as informações básicas" as cadPass_Info
+  usecase "Validar colaborador ativo" as cadPass_ValiAtivo
+  usecase "Colaborador inativo" as cadPass_Inativo
+  usecase "Validar CPF e matrícula únicos" as cadPass_ValiDup
+  usecase "CPF ou matrícula já cadastrados" as cadPass_Dup
+  usecase "Cadastrar ponto de origem" as cadPass_Ponto
+  usecase "Gerar ID para passageiro" as cadPass_ID
+}
+
+RH --> cadPass_Info
+cadPass_Info .down.> cadPass_ValiAtivo : <<include>>
+cadPass_ValiAtivo <.up. cadPass_Inativo : <<extend>>
+cadPass_ValiAtivo .down.> cadPass_ValiDup : <<include>>
+cadPass_ValiDup <.up. cadPass_Dup : <<extend>>
+cadPass_ValiDup .down.> cadPass_Ponto : <<include>>
+cadPass_Ponto .down.> cadPass_ID : <<include>>
+
+@enduml
