@@ -24,14 +24,14 @@ public class Reserva
     public void ConfirmarReserva()
     {
         status = "Confirmada";
-        Console.WriteLine($"Reserva {idReserva} confirmada em {DateTime.Now}");
+        // Reserva confirmada - log seria feito pela interface se necessário
         // Implementacao da confirmacao
     }
 
     public void CancelarReserva()
     {
         status = "Cancelada";
-        Console.WriteLine($"Reserva {idReserva} cancelada em {DateTime.Now}");
+        // Reserva cancelada - log seria feito pela interface se necessário
         // Implementacao do cancelamento
     }
 }

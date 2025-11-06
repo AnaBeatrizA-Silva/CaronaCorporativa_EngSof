@@ -2,41 +2,64 @@ using System;
 
 public class Rota
 {
-    private int idRota;
-    private string enderecoPartida;
-    private string enderecoFinal;
-    private DateTime horarioPartida;
-    private double distanciaTotal;
+    // Campos públicos no padrão SistemaBiblioteca
+    public int IdRota = 0;
+    public string EnderecoPartida = "";
+    public string EnderecoFinal = "";
+    public DateTime HorarioPartida = DateTime.Now;
+    public double DistanciaTotal = 0.0;
+    public string CpfMotorista = ""; // Para identificar o dono da rota
     private Motorista? motorista;
     private PareamentoRota? pareamentoRota;
 
-    // Construtor
-    public Rota(int idRota, string enderecoPartida, string enderecoFinal, DateTime horarioPartida, double distanciaTotal)
+    // Construtor simples
+    public Rota()
     {
-        this.idRota = idRota;
-        this.enderecoPartida = enderecoPartida;
-        this.enderecoFinal = enderecoFinal;
-        this.horarioPartida = horarioPartida;
-        this.distanciaTotal = distanciaTotal;
     }
 
-    // Metodos
+    // Construtor com parâmetros
+    public Rota(int idRota, string enderecoPartida, string enderecoFinal, DateTime horarioPartida, double distanciaTotal, string cpfMotorista = "")
+    {
+        this.IdRota = idRota;
+        this.EnderecoPartida = enderecoPartida;
+        this.EnderecoFinal = enderecoFinal;
+        this.HorarioPartida = horarioPartida;
+        this.DistanciaTotal = distanciaTotal;
+        this.CpfMotorista = cpfMotorista;
+    }
+
+    // Metodos simples
     public double CalcularDistancia()
     {
-        // Implementacao do calculo de distancia
-        Console.WriteLine($"Calculando distancia da rota {idRota}");
-        // Logica para calcular a distancia real
-        return distanciaTotal;
+        return DistanciaTotal;
     }
 
     public bool VerificarDestinoFinal()
     {
-        if (string.IsNullOrWhiteSpace(enderecoFinal))
+        if (string.IsNullOrWhiteSpace(EnderecoFinal))
         {
-            Console.WriteLine("Endereco final nao definido");
+            // Endereço final não definido - retorna false sem imprimir
             return false;
         }
-        Console.WriteLine($"Destino final verificado: {enderecoFinal}");
+        // Destino válido - retorna true sem imprimir
         return true;
+    }
+
+    // Retorna string formatada em vez de imprimir diretamente
+    public string ObterDetalhesFormatados()
+    {
+        return $"=== ROTA #{IdRota} ===\n" +
+               $"Origem: {EnderecoPartida}\n" +
+               $"Destino: {EnderecoFinal}\n" +
+               $"Horario: {HorarioPartida:dd/MM/yyyy HH:mm}\n" +
+               $"Distancia: {DistanciaTotal:F1} km\n" +
+               $"Motorista: {CpfMotorista}\n" +
+               $"=====================";
+    }
+    
+    // Método legado mantido para compatibilidade
+    public void ExibirDetalhes()
+    {
+        Console.WriteLine(ObterDetalhesFormatados());
     }
 }

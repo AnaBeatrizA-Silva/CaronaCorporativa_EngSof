@@ -49,7 +49,8 @@ public class VeiculoCRUD
         if (tela.ConfirmarAcao("Deseja cadastrar NOVO veiculo? (Nao = Buscar existente)"))
         {
             // Cadastro novo - começa pelo ID
-            tela.MontarTela(this.coluna, this.linha, this.dados, "Dados do Veiculo");
+            tela.LimparTela();
+            tela.DesenharCabecalho("DADOS DO VEICULO", "Cadastro de Novo Veiculo");
             this.EntrarDados(3); // Todos os dados na ordem correta
             
             if (tela.ConfirmarAcao("Confirma o cadastro?"))
@@ -70,7 +71,8 @@ public class VeiculoCRUD
         else
         {
             // Buscar existente - pede ID primeiro
-            tela.MontarTela(this.coluna, this.linha, this.dados, "Buscar Veiculo");
+            Console.Clear();
+            tela.DesenharCabecalho("Buscar Veiculo");
             this.EntrarDados(1); // Apenas ID
             bool encontrou = this.ProcurarId();
 
@@ -102,10 +104,9 @@ public class VeiculoCRUD
             if (encontrou)
             {
                 this.MostrarDados();
-                tela.MostrarMensagem(2, tela.ObterLinhaSegura(Console.WindowHeight - 6), "Veiculo encontrado no sistema!", true);
+                tela.ExibirSucesso("Veiculo encontrado no sistema!");
                 
-                resposta = tela.Perguntar(2, tela.ObterLinhaSegura(Console.WindowHeight - 5), 
-                    "Deseja Alterar, Excluir ou Voltar? (A/E/V)");
+                resposta = tela.LerTexto("Deseja Alterar, Excluir ou Voltar? (A/E/V)");
                 
                 if (resposta.ToUpper() == "A")
                 {
@@ -293,16 +294,13 @@ public class VeiculoCRUD
 
         if (veiculos.Count == 0)
         {
-            tela.MostrarMensagem(10, 10, "Nenhum veiculo cadastrado no sistema.");
+            tela.ExibirMensagem("Nenhum veiculo cadastrado no sistema.");
         }
         else
         {
-            int linha = 10;
             for (int i = 0; i < veiculos.Count; i++)
             {
-                tela.MostrarMensagem(10, linha, 
-                    $"{i + 1}. ID: {veiculos[i].ObterIdVeiculo()} | {veiculos[i].ObterMarca()} {veiculos[i].ObterModelo()} | Placa: {veiculos[i].ObterPlaca()}");
-                linha++;
+                Console.WriteLine($"{i + 1}. ID: {veiculos[i].ObterIdVeiculo()} | {veiculos[i].ObterMarca()} {veiculos[i].ObterModelo()} | Placa: {veiculos[i].ObterPlaca()}");
             }
         }
 

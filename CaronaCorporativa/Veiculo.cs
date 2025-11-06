@@ -31,17 +31,17 @@ public class Veiculo
     {
         if (capacidade <= 0)
         {
-            Console.WriteLine("Capacidade invalida");
+            // Capacidade inválida - retorna false sem imprimir
             return false;
         }
-        Console.WriteLine($"Capacidade valida: {capacidade} passageiros");
+        // Capacidade válida - retorna true sem imprimir
         return true;
     }
 
     public void CadastrarVeiculo()
     {
-        Console.WriteLine($"Cadastrando veiculo: {marca} {modelo} - Placa: {placa}");
-        // Implementacao do cadastro do veiculo
+        // Implementacao do cadastro do veiculo - sem output direto
+        // Log seria feito pela interface se necessário
     }
     
     // Metodos para obter dados (necessarios para o CRUD)
@@ -53,16 +53,23 @@ public class Veiculo
     public string ObterSeguro() { return seguro; }
     public int ObterCapacidade() { return capacidade; }
     
+    // Retorna string formatada em vez de imprimir diretamente
+    public string ObterDadosFormatados()
+    {
+        return $"=== DADOS DO VEICULO ===\n" +
+               $"ID: {idVeiculo}\n" +
+               $"Placa: {placa}\n" +
+               $"Marca: {marca}\n" +
+               $"Modelo: {modelo}\n" +
+               $"Ano: {ano}\n" +
+               $"Seguro: {seguro}\n" +
+               $"Capacidade: {capacidade} passageiros\n" +
+               $"========================";
+    }
+    
+    // Método legado mantido para compatibilidade
     public void Consultar()
     {
-        Console.WriteLine("=== DADOS DO VEICULO ===");
-        Console.WriteLine($"ID: {idVeiculo}");
-        Console.WriteLine($"Placa: {placa}");
-        Console.WriteLine($"Marca: {marca}");
-        Console.WriteLine($"Modelo: {modelo}");
-        Console.WriteLine($"Ano: {ano}");
-        Console.WriteLine($"Seguro: {seguro}");
-        Console.WriteLine($"Capacidade: {capacidade} passageiros");
-        Console.WriteLine("========================");
+        Console.WriteLine(ObterDadosFormatados());
     }
 }

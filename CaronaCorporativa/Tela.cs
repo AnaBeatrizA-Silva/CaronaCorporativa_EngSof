@@ -16,35 +16,13 @@ public class Tela
         this.corFundo = ConsoleColor.Black;
     }
 
-    // Construtor com dimensoes personalizadas
-    public Tela(int largura, int altura)
-    {
-        this.largura = largura;
-        this.altura = altura;
-        this.corTexto = ConsoleColor.Green;
-        this.corFundo = ConsoleColor.Black;
-    }
 
-    // Construtor completo com cores personalizadas
-    public Tela(int largura, int altura, ConsoleColor corTexto, ConsoleColor corFundo)
-    {
-        this.largura = largura;
-        this.altura = altura;
-        this.corTexto = corTexto;
-        this.corFundo = corFundo;
-    }
 
     // ===============================
     // MÉTODOS DE UI BASE (Ex-TelaAvancada)
     // ===============================
 
-    // Prepara a tela com cores e limpa o console
-    public void PrepararTela()
-    {
-        Console.BackgroundColor = this.corFundo;
-        Console.ForegroundColor = this.corTexto;
-        Console.Clear();
-    }
+
 
     // Limpa uma area especifica da tela
     public void LimparArea(int colIni, int linIni, int colFin, int linFin)
@@ -103,31 +81,7 @@ public class Tela
     }
 
     // Monta uma tela completa com titulo e conteudo
-    public void MontarTela(int col, int lin, List<string> dados, string titulo)
-    {
-        int larguraTela = Math.Max(titulo.Length + 4, this.largura);
-        int alturaTela = dados.Count + 4;
-        
-        this.MontarMoldura(col, lin, col + larguraTela, lin + alturaTela);
 
-        // Posiciona e escreve o titulo
-        col++;
-        lin++;
-        Console.SetCursorPosition(col + 1, lin);
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.Write(titulo);
-        Console.ForegroundColor = this.corTexto;
-        
-        lin += 2; // Pula linha após titulo
-        
-        // Escreve cada linha de dados
-        foreach (string linha in dados)
-        {
-            Console.SetCursorPosition(col + 1, lin);
-            Console.Write(linha);
-            lin++;
-        }
-    }
 
     // Exibe menu com opcoes e retorna a opcao escolhida
     public string MostrarMenu(List<string> opcoes, int col, int lin, string titulo = "")
@@ -182,36 +136,17 @@ public class Tela
         return opcaoEscolhida;
     }
 
-    // Mostra uma mensagem em posicao especifica
-    public void MostrarMensagem(int col, int lin, string mensagem, bool limparLinha = false)
-    {
-        if (limparLinha)
-        {
-            // Limpa a linha antes de escrever
-            Console.SetCursorPosition(0, lin);
-            Console.Write(new string(' ', Console.WindowWidth - 1));
-        }
-        
-        Console.SetCursorPosition(col, lin);
-        Console.Write(mensagem);
-    }
+
 
     // Faz uma pergunta e retorna a resposta
-    public string Perguntar(int col, int lin, string pergunta)
-    {
-        Console.SetCursorPosition(col, lin);
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.Write($"{pergunta}: ");
-        Console.ForegroundColor = this.corTexto;
-        string resposta = Console.ReadLine() ?? "";
-        return resposta;
-    }
-
     // Exibe mensagem de erro
     public void ExibirErro(string erro, int col = 2, int lin = -1)
     {
         if (lin == -1)
-            lin = Console.WindowHeight - 4;
+        {
+            // Usa uma linha após a área de input, mas garantindo espaço
+            lin = Math.Max(proximaLinhaInput + 2, Console.WindowHeight - 6);
+        }
             
         if (lin >= Console.WindowHeight)
             lin = Console.WindowHeight - 1;
@@ -230,7 +165,10 @@ public class Tela
     public void ExibirSucesso(string mensagem, int col = 2, int lin = -1)
     {
         if (lin == -1)
-            lin = Console.WindowHeight - 4;
+        {
+            // Usa uma linha após a área de input, mas garantindo espaço
+            lin = Math.Max(proximaLinhaInput + 2, Console.WindowHeight - 6);
+        }
             
         if (lin >= Console.WindowHeight)
             lin = Console.WindowHeight - 1;
@@ -249,7 +187,12 @@ public class Tela
     public bool ConfirmarAcao(string mensagem, int col = 2, int lin = -1)
     {
         if (lin == -1)
-            lin = Console.WindowHeight - 3;
+        {
+            // Usa a próxima linha disponível para input
+            lin = proximaLinhaInput + 1;
+            if (lin >= Console.WindowHeight - 2)
+                lin = Console.WindowHeight - 3;
+        }
             
         if (lin >= Console.WindowHeight)
             lin = Console.WindowHeight - 1;
@@ -271,7 +214,10 @@ public class Tela
     public void AguardarTecla(string mensagem = "Pressione qualquer tecla para continuar...", int col = 2, int lin = -1)
     {
         if (lin == -1)
+        {
+            // Sempre usa a última linha da tela para aguardar tecla
             lin = Console.WindowHeight - 2;
+        }
 
         if (lin >= Console.WindowHeight)
             lin = Console.WindowHeight - 1;
@@ -311,6 +257,7 @@ public class Tela
         }
         
         Console.ForegroundColor = this.corTexto;
+        ResetarPosicaoInput(); // Reseta posição após desenhar cabeçalho
     }
 
     // Limpa tela
@@ -319,6 +266,7 @@ public class Tela
         Console.Clear();
         Console.BackgroundColor = this.corFundo;
         Console.ForegroundColor = this.corTexto;
+        ResetarPosicaoInput(); // Reseta posição de input para nova tela
     }
 
    // Pega posição conforme tamanho do CMD
@@ -369,18 +317,15 @@ public class Tela
     public void ExibirMenuGestor()
     {
         LimparTela();
-        DesenharCabecalho("PAINEL DO GESTOR", "Gerenciamento Completo do Sistema");
+        DesenharCabecalho("PAINEL DO GESTOR", "Gerenciamento de Usuarios");
 
         List<string> opcoes = new List<string>
         {
-            "1 - Gerenciar Motoristas",
-            "2 - Gerenciar Passageiros", 
-            "3 - Gerenciar Veiculos",
-            "4 - Gerenciar Rotas",
-            "5 - Gerenciar Reservas",
-            "6 - Gerenciar Alertas",
-            "7 - Gerenciar Reembolsos",
-            "8 - Relatorios Gerenciais",
+            "1 - Listar Motoristas",
+            "2 - Listar Passageiros", 
+            "3 - Gerenciar Alertas",
+            "4 - Gerenciar Reembolsos",
+            "5 - Relatorios Gerenciais",
             "0 - Voltar ao Menu Principal"
         };
 
@@ -390,235 +335,96 @@ public class Tela
     public string ExibirMenuGestorComRetorno()
     {
         LimparTela();
-        DesenharCabecalho("PAINEL DO GESTOR", "Gerenciamento Completo do Sistema");
+        DesenharCabecalho("PAINEL DO GESTOR", "Gerenciamento de Usuarios");
 
         List<string> opcoes = new List<string>
         {
-            "1 - Gerenciar Motoristas",
-            "2 - Gerenciar Passageiros", 
-            "3 - Gerenciar Veiculos",
-            "4 - Gerenciar Rotas",
-            "5 - Gerenciar Reservas",
-            "6 - Gerenciar Alertas",
-            "7 - Gerenciar Reembolsos",
-            "8 - Relatorios Gerenciais",
+            "1 - Listar Motoristas",
+            "2 - Listar Passageiros", 
+            "3 - Gerenciar Alertas",
+            "4 - Gerenciar Reembolsos",
+            "5 - Relatorios Gerenciais",
             "0 - Voltar ao Menu Principal"
         };
 
         return MostrarMenu(opcoes, 10, 8, "Selecione uma opcao:");
     }
 
-    public void ExibirMenuMotoristaLogado()
-    {
-        LimparTela();
-        DesenharCabecalho("PAINEL DO MOTORISTA", "Suas opcoes disponiveis");
 
-        List<string> opcoes = new List<string>
-        {
-            "1 - Meus Dados Pessoais",
-            "2 - Meu Veiculo",
-            "3 - Cadastrar Nova Rota",
-            "4 - Minhas Rotas",
-            "5 - Reservas do Meu Veiculo",
-            "6 - Emitir Reembolso",
-            "7 - Validar minha CNH",
-            "8 - Historico de Viagens",
-            "0 - Voltar ao Menu Principal"
-        };
 
-        MostrarMenu(opcoes, 10, 8, "Selecione uma opcao:");
-    }
 
-    public string ExibirMenuMotoristaLogadoComRetorno()
-    {
-        LimparTela();
-        DesenharCabecalho("PAINEL DO MOTORISTA", "Suas opcoes disponiveis");
-
-        List<string> opcoes = new List<string>
-        {
-            "1 - Meus Dados Pessoais",
-            "2 - Meu Veiculo",
-            "3 - Cadastrar Nova Rota",
-            "4 - Minhas Rotas",
-            "5 - Reservas do Meu Veiculo",
-            "6 - Emitir Reembolso",
-            "7 - Validar minha CNH",
-            "8 - Historico de Viagens",
-            "0 - Voltar ao Menu Principal"
-        };
-
-        return MostrarMenu(opcoes, 10, 8, "Selecione uma opcao:");
-    }
-
-    public void ExibirMenuPassageiroLogado()
-    {
-        LimparTela();
-        DesenharCabecalho("PAINEL DO PASSAGEIRO", "Suas opcoes disponiveis");
-
-        List<string> opcoes = new List<string>
-        {
-            "1 - Meus Dados Pessoais",
-            "2 - Solicitar Nova Reserva",
-            "3 - Minhas Reservas",
-            "4 - Realizar Check-in",
-            "5 - Realizar Check-out",
-            "6 - Meus Alertas",
-            "7 - Historico de Viagens",
-            "8 - Avaliar Viagem",
-            "0 - Voltar ao Menu Principal"
-        };
-
-        MostrarMenu(opcoes, 10, 8, "Selecione uma opcao:");
-    }
-
-    public string ExibirMenuPassageiroLogadoComRetorno()
-    {
-        LimparTela();
-        DesenharCabecalho("PAINEL DO PASSAGEIRO", "Suas opcoes disponiveis");
-
-        List<string> opcoes = new List<string>
-        {
-            "1 - Meus Dados Pessoais",
-            "2 - Solicitar Nova Reserva",
-            "3 - Minhas Reservas",
-            "4 - Realizar Check-in",
-            "5 - Realizar Check-out",
-            "6 - Meus Alertas",
-            "7 - Historico de Viagens",
-            "8 - Avaliar Viagem",
-            "0 - Voltar ao Menu Principal"
-        };
-
-        return MostrarMenu(opcoes, 10, 8, "Selecione uma opcao:");
-    }
-
-    // Menus CRUD
-    public void ExibirMenuMotorista()
-    {
-        LimparTela();
-        DesenharCabecalho("GERENCIAR MOTORISTAS", "Operacoes CRUD");
-
-        List<string> opcoes = new List<string>
-        {
-            "1 - Cadastrar Novo Motorista",
-            "2 - Listar Motoristas",
-            "3 - Atualizar Dados do Motorista",
-            "4 - Consultar Motorista",
-            "5 - Validar CNH",
-            "6 - Cadastrar Rota",
-            "0 - Voltar ao Menu Principal"
-        };
-
-        MostrarMenu(opcoes, 10, 8, "Selecione uma opcao:");
-    }
-
-    public void ExibirMenuPassageiro()
-    {
-        LimparTela();
-        DesenharCabecalho("GERENCIAR PASSAGEIROS", "Operacoes CRUD");
-
-        List<string> opcoes = new List<string>
-        {
-            "1 - Cadastrar Novo Passageiro",
-            "2 - Listar Passageiros",
-            "3 - Atualizar Dados do Passageiro",
-            "4 - Consultar Passageiro",
-            "5 - Solicitar Reserva",
-            "6 - Realizar Check-in",
-            "7 - Realizar Check-out",
-            "0 - Voltar ao Menu Principal"
-        };
-
-        MostrarMenu(opcoes, 10, 8, "Selecione uma opcao:");
-    }
-
-    public void ExibirMenuVeiculo()
-    {
-        LimparTela();
-        DesenharCabecalho("GERENCIAR VEICULOS", "Operacoes CRUD");
-
-        List<string> opcoes = new List<string>
-        {
-            "1 - Cadastrar Novo Veiculo",
-            "2 - Listar Veiculos",
-            "3 - Atualizar Dados do Veiculo",
-            "4 - Consultar Veiculo",
-            "5 - Validar Capacidade",
-            "0 - Voltar ao Menu Principal"
-        };
-
-        MostrarMenu(opcoes, 10, 8, "Selecione uma opcao:");
-    }
 
     // Métodos de entrada de dados
+    private int proximaLinhaInput = 8; // Começa após o cabeçalho
+    
     public string LerTexto(string prompt)
     {
+        // Garante que estamos em uma posição segura da tela
+        if (proximaLinhaInput >= Console.WindowHeight - 3)
+            proximaLinhaInput = 8; // Reinicia se chegou no final da tela
+            
+        Console.SetCursorPosition(2, proximaLinhaInput);
         Console.ForegroundColor = ConsoleColor.Green;
         Console.Write($"{prompt}: ");
-        Console.ResetColor();
-        return Console.ReadLine() ?? "";
+        Console.ForegroundColor = this.corTexto;
+        
+        string resposta = Console.ReadLine() ?? "";
+        proximaLinhaInput++; // Próxima entrada será na linha seguinte
+        
+        return resposta;
+    }
+    
+    // Define a posição da próxima linha de input
+    public void DefinirProximaLinhaInput(int linha)
+    {
+        proximaLinhaInput = linha;
+    }
+    
+    // Método para resetar a posição de input (usar no início de novas telas)
+    public void ResetarPosicaoInput()
+    {
+        proximaLinhaInput = 8;
     }
 
-    public int LerNumero(string prompt)
-    {
-        while (true)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write($"{prompt}: ");
-            Console.ResetColor();
-            if (int.TryParse(Console.ReadLine(), out int numero))
-            {
-                return numero;
-            }
-            Console.WriteLine("Por favor, digite um numero valido!");
-        }
-    }
 
-    public decimal LerDecimal(string prompt)
-    {
-        while (true)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write($"{prompt}: ");
-            Console.ResetColor();
-            if (decimal.TryParse(Console.ReadLine(), out decimal numero))
-            {
-                return numero;
-            }
-            Console.WriteLine("Por favor, digite um valor decimal valido!");
-        }
-    }
 
-    public DateTime LerData(string prompt)
-    {
-        while (true)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write($"{prompt} (dd/MM/yyyy HH:mm): ");
-            Console.ResetColor();
-            if (DateTime.TryParse(Console.ReadLine(), out DateTime data))
-            {
-                return data;
-            }
-            Console.WriteLine("Por favor, digite uma data valida no formato dd/MM/yyyy HH:mm!");
-        }
-    }
 
-    // Métodos da tela
-    public void ExibirCabecalho(string titulo)
-    {
-        LimparTela();
-        DesenharCabecalho(titulo);
-    }
 
     public void ExibirMensagem(string mensagem, bool aguardar = true)
     {
         int linhaSeg = ObterLinhaSegura(Console.WindowHeight - 6);
-        MostrarMensagem(2, linhaSeg, mensagem);
+        Console.SetCursorPosition(2, linhaSeg);
+        Console.Write(mensagem);
         
         if (aguardar)
         {
             AguardarTecla();
         }
+    }
+    
+    // Posiciona cursor para área de conteúdo (após cabeçalho)
+    public void PosicionarParaConteudo()
+    {
+        Console.SetCursorPosition(2, 8);
+        proximaLinhaInput = 8; // Reset da posição de input também
+    }
+    
+    // Exibe informações formatadas com posicionamento controlado
+    public void ExibirInformacoes(string titulo, params string[] linhas)
+    {
+        Console.SetCursorPosition(2, 8);
+        Console.WriteLine(titulo);
+        
+        foreach (string linha in linhas)
+        {
+            Console.WriteLine(linha);
+        }
+        
+        Console.WriteLine(); // Linha em branco
+        Console.WriteLine(); // Segunda linha em branco para espaçamento
+        
+        // Calcula próxima posição de input
+        int proximaPosicao = 8 + linhas.Length + 4; // título + linhas + 2 espaços + margem
+        DefinirProximaLinhaInput(proximaPosicao);
     }
 }
