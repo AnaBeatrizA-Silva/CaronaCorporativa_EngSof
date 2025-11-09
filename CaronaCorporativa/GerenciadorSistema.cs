@@ -164,15 +164,283 @@ public class GerenciadorSistema
 
     private void GerenciarAlertas()
     {
+        while (true)
+        {
+            tela.LimparTela();
+            tela.DesenharCabecalho("GERENCIAR ALERTAS", "Centro de Notificações do Sistema");
+            
+            var alertasPendentes = GerenciadorAlertas.ObterAlertasPendentes();
+            var todosAlertas = GerenciadorAlertas.ObterTodosAlertas();
+            
+            Console.SetCursorPosition(2, 8);
+            Console.WriteLine("=== RESUMO DE ALERTAS ===");
+            Console.WriteLine($"🔴 Alertas pendentes: {alertasPendentes.Count}");
+            Console.WriteLine($"📊 Total de alertas: {todosAlertas.Count}");
+            Console.WriteLine($"🚫 Cancelamentos: {GerenciadorAlertas.ContarAlertasPorTipo("CANCELAMENTO")}");
+            Console.WriteLine($"💰 Reembolsos: {GerenciadorAlertas.ContarAlertasPorTipo("REEMBOLSO")}");
+            Console.WriteLine($"⚙️ Sistema: {GerenciadorAlertas.ContarAlertasPorTipo("SISTEMA")}");
+            Console.WriteLine();
+
+            if (alertasPendentes.Count > 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("⚠️  ATENÇÃO: Há alertas pendentes que requerem sua atenção!");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("✅ Todos os alertas foram processados.");
+                Console.ResetColor();
+            }
+
+            List<string> opcoes = new List<string>
+            {
+                "1 - Ver alertas pendentes",
+                "2 - Ver todos os alertas", 
+                "3 - Filtrar por tipo",
+                "4 - Marcar alerta como resolvido",
+                "5 - Limpar alertas resolvidos",
+                "0 - Voltar"
+            };
+
+            string opcao = tela.MostrarMenu(opcoes, 10, Console.CursorTop + 2, "Escolha uma opção:");
+
+            switch (opcao)
+            {
+                case "1":
+                    VisualizarAlertasPendentes();
+                    break;
+                case "2":
+                    VisualizarTodosAlertas();
+                    break;
+                case "3":
+                    FiltrarAlertasPorTipo();
+                    break;
+                case "4":
+                    MarcarAlertaComoResolvido();
+                    break;
+                case "5":
+                    LimparAlertasResolvidos();
+                    break;
+                case "0":
+                    return;
+                default:
+                    tela.ExibirErro("Opção inválida!");
+                    tela.AguardarTecla();
+                    break;
+            }
+        }
+    }
+
+    private void VisualizarAlertasPendentes()
+    {
         tela.LimparTela();
-        tela.DesenharCabecalho("GERENCIAR ALERTAS", "Sistema de Alertas");
-        
-        tela.ExibirMensagem("Funcionalidade de alertas sera implementada futuramente.");
-        tela.ExibirMensagem("Aqui o gestor podera:");
-        tela.ExibirMensagem("- Visualizar alertas do sistema");
-        tela.ExibirMensagem("- Gerenciar notificacoes para usuarios");
-        tela.ExibirMensagem("- Configurar alertas automaticos");
-        
+        tela.DesenharCabecalho("ALERTAS PENDENTES", "Alertas que Requerem Atenção");
+
+        var alertasPendentes = GerenciadorAlertas.ObterAlertasPendentes();
+
+        if (alertasPendentes.Count == 0)
+        {
+            tela.ExibirMensagem("Não há alertas pendentes.");
+        }
+        else
+        {
+            Console.SetCursorPosition(2, 8);
+            Console.WriteLine($"📋 Exibindo {alertasPendentes.Count} alertas pendentes:");
+            Console.WriteLine();
+
+            foreach (var alerta in alertasPendentes)
+            {
+                // Marcar como visualizado quando o gestor vê
+                GerenciadorAlertas.MarcarComoVisualizado(alerta.IdAlerta);
+
+                string tipoIcon = alerta.TipoAlerta switch
+                {
+                    "CANCELAMENTO" => "🚫",
+                    "REEMBOLSO" => "💰",
+                    "SISTEMA" => "⚙️",
+                    _ => "📢"
+                };
+
+                Console.WriteLine($"{tipoIcon} Alerta #{alerta.IdAlerta} - {alerta.TipoAlerta}");
+                Console.WriteLine($"📅 {alerta.HorarioEnvio:dd/MM/yyyy HH:mm}");
+                Console.WriteLine($"📝 {alerta.Mensagem}");
+                
+                if (!string.IsNullOrWhiteSpace(alerta.DetalhesAdicionais))
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"ℹ️  {alerta.DetalhesAdicionais}");
+                    Console.ResetColor();
+                }
+                
+                Console.WriteLine();
+            }
+        }
+
+        tela.AguardarTecla();
+    }
+
+    private void VisualizarTodosAlertas()
+    {
+        tela.LimparTela();
+        tela.DesenharCabecalho("TODOS OS ALERTAS", "Histórico Completo");
+
+        var todosAlertas = GerenciadorAlertas.ObterTodosAlertas();
+
+        if (todosAlertas.Count == 0)
+        {
+            tela.ExibirMensagem("Nenhum alerta foi gerado ainda.");
+        }
+        else
+        {
+            Console.SetCursorPosition(2, 8);
+            Console.WriteLine($"📋 Histórico completo ({todosAlertas.Count} alertas):");
+            Console.WriteLine();
+
+            foreach (var alerta in todosAlertas.Take(10)) // Mostrar apenas últimos 10
+            {
+                string statusIcon = alerta.Status switch
+                {
+                    "PENDENTE" => "🔴",
+                    "VISUALIZADO" => "🟡", 
+                    "RESOLVIDO" => "🟢",
+                    _ => "⚪"
+                };
+
+                Console.WriteLine($"{statusIcon} #{alerta.IdAlerta} | {alerta.TipoAlerta} | {alerta.HorarioEnvio:dd/MM HH:mm}");
+                Console.WriteLine($"   {alerta.Mensagem}");
+                Console.WriteLine();
+            }
+
+            if (todosAlertas.Count > 10)
+            {
+                Console.WriteLine($"... e mais {todosAlertas.Count - 10} alertas");
+            }
+        }
+
+        tela.AguardarTecla();
+    }
+
+    private void FiltrarAlertasPorTipo()
+    {
+        tela.LimparTela();
+        tela.DesenharCabecalho("FILTRAR ALERTAS", "Filtro por Tipo");
+
+        List<string> tipos = new List<string>
+        {
+            "1 - CANCELAMENTO",
+            "2 - REEMBOLSO",
+            "3 - SISTEMA",
+            "0 - Voltar"
+        };
+
+        string opcao = tela.MostrarMenu(tipos, 10, 8, "Selecione o tipo:");
+
+        string? tipoFiltro = opcao switch
+        {
+            "1" => "CANCELAMENTO",
+            "2" => "REEMBOLSO", 
+            "3" => "SISTEMA",
+            _ => null
+        };
+
+        if (tipoFiltro != null)
+        {
+            var alertasFiltrados = GerenciadorAlertas.ObterAlertasPorTipo(tipoFiltro);
+            
+            tela.LimparTela();
+            tela.DesenharCabecalho($"ALERTAS - {tipoFiltro}", $"Filtrados por {tipoFiltro}");
+
+            if (alertasFiltrados.Count == 0)
+            {
+                tela.ExibirMensagem($"Nenhum alerta do tipo {tipoFiltro} encontrado.");
+            }
+            else
+            {
+                Console.SetCursorPosition(2, 8);
+                Console.WriteLine($"📋 {alertasFiltrados.Count} alertas do tipo {tipoFiltro}:");
+                Console.WriteLine();
+
+                foreach (var alerta in alertasFiltrados)
+                {
+                    Console.WriteLine(alerta.ObterDetalhesFormatados());
+                    Console.WriteLine();
+                }
+            }
+
+            tela.AguardarTecla();
+        }
+    }
+
+    private void MarcarAlertaComoResolvido()
+    {
+        tela.LimparTela();
+        tela.DesenharCabecalho("RESOLVER ALERTA", "Marcar como Resolvido");
+
+        var alertasPendentes = GerenciadorAlertas.ObterAlertasPendentes();
+
+        if (alertasPendentes.Count == 0)
+        {
+            tela.ExibirMensagem("Não há alertas pendentes para resolver.");
+            tela.AguardarTecla();
+            return;
+        }
+
+        Console.SetCursorPosition(2, 8);
+        Console.WriteLine("Alertas pendentes:");
+        Console.WriteLine();
+
+        for (int i = 0; i < alertasPendentes.Count; i++)
+        {
+            var alerta = alertasPendentes[i];
+            Console.WriteLine($"[{i + 1}] #{alerta.IdAlerta} - {alerta.TipoAlerta}");
+            Console.WriteLine($"    {alerta.Mensagem}");
+            Console.WriteLine();
+        }
+
+        string numeroStr = tela.LerTexto("Digite o número do alerta para resolver (0 para cancelar)");
+        if (int.TryParse(numeroStr, out int numero) && numero > 0 && numero <= alertasPendentes.Count)
+        {
+            var alerta = alertasPendentes[numero - 1];
+            
+            if (tela.ConfirmarAcao($"Marcar alerta #{alerta.IdAlerta} como resolvido?"))
+            {
+                GerenciadorAlertas.MarcarComoResolvido(alerta.IdAlerta);
+                tela.ExibirSucesso("Alerta marcado como resolvido!");
+            }
+        }
+        else if (numero != 0)
+        {
+            tela.ExibirErro("Número inválido!");
+        }
+
+        tela.AguardarTecla();
+    }
+
+    private void LimparAlertasResolvidos()
+    {
+        tela.LimparTela();
+        tela.DesenharCabecalho("LIMPAR ALERTAS", "Remover Alertas Resolvidos");
+
+        int totalAlertas = GerenciadorAlertas.ObterTodosAlertas().Count;
+        int alertasResolvidos = GerenciadorAlertas.ObterTodosAlertas().Count(a => a.Status == "RESOLVIDO");
+
+        tela.ExibirInformacoes("=== LIMPEZA DE ALERTAS ===",
+            $"Total de alertas: {totalAlertas}",
+            $"Alertas resolvidos: {alertasResolvidos}",
+            $"Serão removidos: {alertasResolvidos} alertas");
+
+        if (alertasResolvidos == 0)
+        {
+            tela.ExibirMensagem("Não há alertas resolvidos para limpar.");
+        }
+        else if (tela.ConfirmarAcao("Confirma a limpeza dos alertas resolvidos?"))
+        {
+            GerenciadorAlertas.LimparAlertasResolvidos();
+            tela.ExibirSucesso($"{alertasResolvidos} alertas resolvidos foram removidos!");
+        }
+
         tela.AguardarTecla();
     }
 
@@ -224,6 +492,10 @@ public class GerenciadorSistema
 
     private void LoginMotorista()
     {
+        // Sincronizar solicitações antes do motorista acessar
+        var solicitacoes = passageiroCRUD.ObterSolicitacoes();
+        motoristaCRUD.AtualizarSolicitacoes(solicitacoes);
+        
         motoristaCRUD.ExecutarCRUD();
         tela.AguardarTecla();
     }

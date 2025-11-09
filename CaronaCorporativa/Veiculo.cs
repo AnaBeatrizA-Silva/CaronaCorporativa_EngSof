@@ -10,7 +10,6 @@ public class Veiculo
     private int ano;
     private string seguro;
     private int capacidade;
-    private Motorista? motorista;
     private List<Reserva> reservas;
 
     // Construtor

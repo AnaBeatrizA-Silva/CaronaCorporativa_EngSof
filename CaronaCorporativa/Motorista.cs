@@ -2,7 +2,6 @@ using System;
 
 public class Motorista
 {
-    // Campos públicos como no padrão SistemaBiblioteca
     public string Nome = "";
     public string Cpf = "";
     public string Cargo = "";

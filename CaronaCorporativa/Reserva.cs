@@ -6,9 +6,6 @@ public class Reserva
     private int idReserva;
     private string status;
     private DateTime dataReserva;
-    private Passageiro? passageiro;
-    private Veiculo? veiculo;
-    private Reembolso? reembolso;
     private List<Alerta> alertas;
 
     // Construtor

@@ -380,6 +380,24 @@ public class Tela
         proximaLinhaInput = linha;
     }
     
+    // Exibe lista de bairros disponíveis
+    public void ExibirBairrosDisponiveis()
+    {
+        GerenciadorBairros gerenciador = new GerenciadorBairros();
+        var bairros = gerenciador.ObterBairrosDisponiveis();
+        
+        Console.WriteLine("BAIRROS DISPONÍVEIS:");
+        for (int i = 0; i < bairros.Count && i < 10; i++) // Mostrar apenas os primeiros 10
+        {
+            Console.WriteLine($"• {bairros[i]}");
+        }
+        if (bairros.Count > 10)
+        {
+            Console.WriteLine($"... e mais {bairros.Count - 10} bairros");
+        }
+        Console.WriteLine();
+    }
+    
     // Método para resetar a posição de input (usar no início de novas telas)
     public void ResetarPosicaoInput()
     {

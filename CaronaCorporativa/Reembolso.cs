@@ -5,7 +5,6 @@ public class Reembolso
     private int idReembolso;
     private DateTime dataEmissao;
     private decimal valor;
-    private Reserva? reserva;
 
     // Construtor
     public Reembolso(int idReembolso, DateTime dataEmissao, decimal valor)

@@ -2,15 +2,12 @@ using System;
 
 public class Rota
 {
-    // Campos públicos no padrão SistemaBiblioteca
     public int IdRota = 0;
     public string EnderecoPartida = "";
     public string EnderecoFinal = "";
     public DateTime HorarioPartida = DateTime.Now;
     public double DistanciaTotal = 0.0;
     public string CpfMotorista = ""; // Para identificar o dono da rota
-    private Motorista? motorista;
-    private PareamentoRota? pareamentoRota;
 
     // Construtor simples
     public Rota()
