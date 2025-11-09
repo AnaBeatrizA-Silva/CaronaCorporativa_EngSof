@@ -157,9 +157,6 @@ public class GerenciadorSistema
                 case 6:
                     GerarRelatorios();
                     break;
-                case 7:
-                    ExecutarTestesPareamento();
-                    break;
                 case 0:
                     break;
                 default:
@@ -1192,12 +1189,6 @@ public class GerenciadorSistema
         Console.WriteLine("===============================");
         
         tela.AguardarTecla();
-    }
-
-    private void ExecutarTestesPareamento()
-    {
-        TestePareamentoRoutas teste = new TestePareamentoRoutas();
-        teste.ExecutarTesteInterativo();
     }
 
     private void LoginMotorista()

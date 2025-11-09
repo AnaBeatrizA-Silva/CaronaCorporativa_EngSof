@@ -1,11 +1,21 @@
 # PROTÓTIPOS DE TELAS - SISTEMA CARONA CORPORATIVA
 
+## MAPEAMENTO COM REQUISITOS FUNCIONAIS
+
+### **Legenda de Requisitos Atendidos:**
+- **RF-001 a RF-005**: Cadastro e controle de usuários
+- **RF-006 a RF-013**: Gestão de rotas e pareamento
+- **RF-014 a RF-016**: Sistema de reembolsos
+- **RF-017 a RF-019**: Alertas e notificações
+- **RF-020**: Relatórios obrigatórios
+
 ## 1. TELA PRINCIPAL
+**Requisitos**: RF-001, RF-005 (Controle de acesso e duplicidade)
 
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                            CARONA CORPORATIVA                               ║
-║                        Sistema de Gestao de Caronas                        ║
+║                            CARONA CORPORATIVA                                ║
+║                        Sistema de Gestao de Caronas                          ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 ┌─────────────────────────────────────────────┐
@@ -21,11 +31,12 @@
 ```
 
 ## 2. PAINEL DO GESTOR
+**Requisitos**: RF-001, RF-003, RF-005, RF-011, RF-020 (Gestão de usuários e relatórios)
 
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                              PAINEL DO GESTOR                               ║
-║                           Gerenciamento de Usuarios                         ║
+║                              PAINEL DO GESTOR                                ║
+║                           Gerenciamento de Usuarios                          ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 ┌─────────────────────────────────────────────┐
@@ -37,7 +48,6 @@
 │  4 - Gerenciar Alertas                      │
 │  5 - Gerenciar Reembolsos                   │
 │  6 - Relatorios Gerenciais                  │
-│  7 - Testes de Pareamento                   │
 │  0 - Voltar ao Menu Principal               │
 │                                             │
 │  Opcao: ____                                │
@@ -45,6 +55,7 @@
 ```
 
 ### Gerenciar Motoristas
+**Requisitos**: RF-001, RF-003 (Cadastro motorista/veículo)
 ```
 ┌─────────────────────────────────────────────┐
 │         GERENCIAR MOTORISTAS                │
@@ -60,6 +71,7 @@
 ```
 
 ### Gerenciar Passageiros
+**Requisitos**: RF-005, RF-009 (Controle duplicidade e reservas)
 ```
 ┌─────────────────────────────────────────────┐
 │         GERENCIAR PASSAGEIROS               │
@@ -76,11 +88,12 @@
 ```
 
 ## 3. MÓDULO MOTORISTA
+**Requisitos**: RF-001, RF-006, RF-007, RF-008 (Cadastro e definição de rotas)
 
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                           MÓDULO MOTORISTA                                  ║
-║                      Sistema de Caronas Corporativas                        ║
+║                           MÓDULO MOTORISTA                                   ║
+║                      Sistema de Caronas Corporativas                         ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 ┌─────────────────────────────────────────────┐
@@ -92,10 +105,11 @@
 ```
 
 ### Painel do Motorista Logado
+**Requisitos**: RF-003, RF-006, RF-007, RF-012, RF-013, RF-014 (Gestão veículo, rotas, pareamento, check-out, reembolsos)
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                       BEM-VINDO, [NOME MOTORISTA]                          ║
-║                            Painel do Motorista                              ║
+║                       BEM-VINDO, [NOME MOTORISTA]                            ║
+║                            Painel do Motorista                               ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 ┌─────────────────────────────────────────────┐
@@ -113,10 +127,11 @@
 ```
 
 ### Gerenciar Veículo
+**Requisitos**: RF-003, RF-004 (Cadastro de veículo e capacidade)
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                            GERENCIAR VEICULO                                ║
-║                             Dados do Veiculo                                ║
+║                            GERENCIAR VEICULO                                 ║
+║                             Dados do Veiculo                                 ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 === DADOS DO SEU VEICULO ===
@@ -135,10 +150,11 @@ Deseja alterar os dados do veiculo? (S/N): __
 ```
 
 ### Verificar Solicitações
+**Requisitos**: RF-009, RF-010, RF-012 (Reserva de assentos e pareamento)
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                        SOLICITACOES DE CARONA                               ║
-║                       Gerenciamento de Pedidos                              ║
+║                        SOLICITACOES DE CARONA                                ║
+║                       Gerenciamento de Pedidos                               ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 === SOLICITACOES COMPATIVEIS ===
@@ -161,11 +177,12 @@ Deseja alterar os dados do veiculo? (S/N): __
 ```
 
 ## 4. MÓDULO PASSAGEIRO
+**Requisitos**: RF-002, RF-009, RF-013 (Solicitação de caronas, reservas e check-in)
 
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                          MÓDULO PASSAGEIRO                                  ║
-║                      Sistema de Caronas Corporativas                        ║
+║                          MÓDULO PASSAGEIRO                                   ║
+║                      Sistema de Caronas Corporativas                         ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 ┌─────────────────────────────────────────────┐
@@ -177,10 +194,11 @@ Deseja alterar os dados do veiculo? (S/N): __
 ```
 
 ### Painel do Passageiro Logado
+**Requisitos**: RF-002, RF-009, RF-013 (Gestão de solicitações e check-in)
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                     BEM-VINDO(A), [NOME PASSAGEIRO]                        ║
-║                            Painel do Passageiro                             ║
+║                     BEM-VINDO(A), [NOME PASSAGEIRO]                          ║
+║                            Painel do Passageiro                              ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 ┌─────────────────────────────────────────────┐
@@ -195,10 +213,11 @@ Deseja alterar os dados do veiculo? (S/N): __
 ```
 
 ### Solicitar Carona
+**Requisitos**: RF-002 (Cadastro de solicitações com origem/destino obrigatório)
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                            SOLICITAR CARONA                                 ║
-║                           Nova Solicitacao                                  ║
+║                            SOLICITAR CARONA                                  ║
+║                           Nova Solicitacao                                   ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 BAIRROS DISPONÍVEIS:
@@ -221,10 +240,11 @@ Confirmar solicitacao? (S/N): __
 ```
 
 ### Check-in Carona
+**Requisitos**: RF-013 (Confirmação de presença dos passageiros)
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                              CHECK-IN CARONA                                ║
-║                             Confirmar Presenca                              ║
+║                              CHECK-IN CARONA                                 ║
+║                             Confirmar Presenca                               ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
 === CARONAS DISPONIVEIS PARA CHECK-IN ===
@@ -234,23 +254,29 @@ Confirmar solicitacao? (S/N): __
     Veiculo: Toyota Corolla (ABC-1234)
     Status: Aceita
 
-Confirmar presenca no ponto de encontro? (S/N): __
+Confirmar presença no ponto de encontro? (S/N): __
 ```
 
 ## 5. FORMULÁRIOS DE CADASTRO
 
 ### Cadastro de Motorista
+**Requisitos**: RF-001, RF-003 (Cadastro com CNH válida e veículo)
 ```
   Nome: ______________________________________
   
   CPF: ___.___.___-__
   
   CNH: _______________
+  
+  Categoria CNH: ___
+  
+  Validade CNH: ____/____/________
 
 Salvar cadastro? (S/N): __
 ```
 
-### Cadastro de Passageiro  
+### Cadastro de Passageiro
+**Requisitos**: RF-005 (Controle de duplicidade por matrícula/CPF)
 ```
   Nome: ______________________________________
   
@@ -262,3 +288,35 @@ Salvar cadastro? (S/N): __
 
 Salvar cadastro? (S/N): __
 ```
+
+---
+
+## REQUISITOS IMPLEMENTADOS POR TELA
+
+### **Tela Principal**
+- ✅ **RF-001**: Sistema de controle de acesso por perfil
+- ✅ **RF-005**: Prevenção de duplicidade no login
+
+### **Painel Gestor**  
+- ✅ **RF-001, RF-003**: Gestão de cadastros motoristas/veículos
+- ✅ **RF-005**: Controle duplicidade passageiros
+- ✅ **RF-011**: Cálculo ocupação média (relatórios)
+- ✅ **RF-020**: Relatórios obrigatórios de frequência
+
+### **Módulo Motorista**
+- ✅ **RF-001**: Cadastro com CNH válida
+- ✅ **RF-003, RF-004**: Gestão veículo e capacidade
+- ✅ **RF-006, RF-007**: Definição de rotas e horários  
+- ✅ **RF-012**: Sistema de pareamento inteligente
+- ✅ **RF-013**: Check-out para finalizar caronas
+- ✅ **RF-014, RF-015**: Sistema de reembolsos
+
+### **Módulo Passageiro**
+- ✅ **RF-002**: Solicitação com origem/destino obrigatório
+- ✅ **RF-009**: Reserva de assentos disponíveis
+- ✅ **RF-013**: Check-in confirmação presença
+
+### **Sistema Geral**
+- ✅ **RF-008**: Controle horário partida (±15min)
+- ✅ **RF-010**: Atualização imediata assentos
+- ✅ **RF-016**: Processamento automático reembolsos

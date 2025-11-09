@@ -355,7 +355,6 @@ public class Tela
             "4 - Gerenciar Alertas",
             "5 - Gerenciar Reembolsos",
             "6 - Relatorios Gerenciais",
-            "7 - Testes de Pareamento",
             "0 - Voltar ao Menu Principal"
         };
 
