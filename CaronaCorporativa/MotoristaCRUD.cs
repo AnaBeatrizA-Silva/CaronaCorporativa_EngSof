@@ -9,7 +9,7 @@ public class MotoristaCRUD
     private List<Rota> rotas;
     private List<Reembolso> reembolsos;
     private List<SolicitacaoCarona> solicitacoes; // Nova lista para gerenciar solicitações
-    private GerenciadorPareamentoRotas gerenciadorPareamento; // Novo gerenciador
+    private GerenciadorRotasUnificado gerenciadorPareamento; // Novo gerenciador unificado
     private Tela tela;
 
     public MotoristaCRUD()
@@ -20,7 +20,7 @@ public class MotoristaCRUD
         this.reembolsos = new List<Reembolso>();
         this.solicitacoes = new List<SolicitacaoCarona>();
         this.tela = new Tela();
-        this.gerenciadorPareamento = new GerenciadorPareamentoRotas(rotas, solicitacoes, veiculos);
+        this.gerenciadorPareamento = new GerenciadorRotasUnificado(rotas, solicitacoes, veiculos);
     }
 
     public void ExecutarCRUD()
@@ -32,8 +32,7 @@ public class MotoristaCRUD
 
             List<string> opcoes = new List<string>
             {
-                "1 - Acessar cadastro existente",
-                "2 - Criar novo cadastro",
+                "1 - Acessar cadastro",
                 "0 - Voltar ao menu principal"
             };
 
@@ -43,9 +42,6 @@ public class MotoristaCRUD
             {
                 case "1":
                     AcessarCadastroExistente();
-                    break;
-                case "2":
-                    CriarNovoCadastro();
                     break;
                 case "0":
                     return;
@@ -119,7 +115,8 @@ public class MotoristaCRUD
                 "3 - Gerenciar rota",
                 "4 - Verificar solicitações de carona",
                 "5 - Visualizar caronas aceitas",
-                "6 - Verificar reembolsos",
+                "6 - Check-out carona",
+                "7 - Verificar reembolsos",
                 "0 - Sair"              
             };
 
@@ -143,6 +140,9 @@ public class MotoristaCRUD
                     VisualizarCaronasAceitas(motorista);
                     break;
                 case "6":
+                    FazerCheckOutCarona(motorista);
+                    break;
+                case "7":
                     VerificarReembolsos(motorista);
                     break;
                 case "0":
@@ -494,9 +494,8 @@ public class MotoristaCRUD
             string destino = tela.LerTexto("Endereco de destino");
             string horario = tela.LerTexto("Horario de partida (HH:MM)");
 
-            // Valida rota usando o GerenciadorBairros
-            GerenciadorBairros gerenciadorBairros = new GerenciadorBairros();
-            if (!gerenciadorBairros.ValidarRota(origem, destino, out double distancia, out string mensagem))
+            // Valida rota usando o sistema unificado
+            if (!gerenciadorPareamento.ValidarRota(origem, destino, out double distancia, out string mensagem))
             {
                 tela.ExibirErro(mensagem);
                 tela.AguardarTecla();
@@ -514,7 +513,7 @@ public class MotoristaCRUD
             Rota rota = new Rota(rotas.Count + 1, origem, destino, horarioPartida, distancia, motorista.Cpf);
 
             // Verifica elegibilidade para reembolso corporativo
-            bool elegivelReembolso = gerenciadorBairros.EhElegivelParaReembolso(distancia);
+            bool elegivelReembolso = gerenciadorPareamento.EhElegivelParaReembolso(distancia);
             double valorReembolso = elegivelReembolso ? distancia * 2.50 : 0;
 
             // Limpar tela antes de exibir o resumo
@@ -545,7 +544,8 @@ public class MotoristaCRUD
             Console.ResetColor();
             Console.WriteLine("======================");
             
-            tela.DefinirProximaLinhaInput(Console.CursorTop + 2);
+            int posicaoInput = Math.Min(Console.CursorTop + 2, Console.WindowHeight - 5);
+            tela.DefinirProximaLinhaInput(posicaoInput);
             
             if (tela.ConfirmarAcao("Confirma o cadastro da rota?"))
             {
@@ -578,9 +578,8 @@ public class MotoristaCRUD
         string novoDestino = tela.LerTexto($"Novo destino (Enter para manter: {rota.EnderecoFinal})");
         if (string.IsNullOrWhiteSpace(novoDestino)) novoDestino = rota.EnderecoFinal;
 
-        // Validar nova rota usando GerenciadorBairros
-        GerenciadorBairros gerenciadorBairros = new GerenciadorBairros();
-        if (!gerenciadorBairros.ValidarRota(novaOrigem, novoDestino, out double novaDistancia, out string mensagem))
+        // Validar nova rota usando sistema unificado
+        if (!gerenciadorPareamento.ValidarRota(novaOrigem, novoDestino, out double novaDistancia, out string mensagem))
         {
             tela.ExibirErro(mensagem);
             tela.AguardarTecla();
@@ -605,7 +604,7 @@ public class MotoristaCRUD
         }
 
         // Verificar elegibilidade para reembolso da nova rota
-        bool elegivelReembolso = gerenciadorBairros.EhElegivelParaReembolso(novaDistancia);
+        bool elegivelReembolso = gerenciadorPareamento.EhElegivelParaReembolso(novaDistancia);
         double valorReembolso = elegivelReembolso ? novaDistancia * 2.50 : 0;
 
         // Exibir resumo das mudanças
@@ -621,7 +620,6 @@ public class MotoristaCRUD
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"ROTA ELEGIVEL PARA REEMBOLSO");
-            Console.WriteLine($"Valor por passageiro: R$ {valorReembolso:F2}");
             Console.ResetColor();
         }
         else
@@ -665,9 +663,8 @@ public class MotoristaCRUD
         }
         else
         {
-            // Usar GerenciadorBairros para verificar elegibilidade da rota do motorista
-            GerenciadorBairros gerenciador = new GerenciadorBairros();
-            bool rotaElegivel = gerenciador.EhElegivelParaReembolso(rotaMotorista.DistanciaTotal);
+            // Usar sistema unificado para verificar elegibilidade da rota do motorista
+            bool rotaElegivel = gerenciadorPareamento.EhElegivelParaReembolso(rotaMotorista.DistanciaTotal);
 
             // Usar método organizado para exibir informações da rota
             tela.ExibirInformacoes("=== SUA ROTA ===",
@@ -713,11 +710,11 @@ public class MotoristaCRUD
                 foreach (var carona in caronasAceitas)
                 {
                     // Recalcular distância baseada no ponto de embarque do passageiro
-                    bool validaRota = gerenciador.ValidarRota(carona.EnderecoOrigem, carona.EnderecoDestino, out double distanciaPassageiro, out _);
+                    bool validaRota = gerenciadorPareamento.ValidarRota(carona.EnderecoOrigem, carona.EnderecoDestino, out double distanciaPassageiro, out _);
                     
                     if (validaRota)
                     {
-                        bool elegivelReembolso = gerenciador.EhElegivelParaReembolso(distanciaPassageiro);
+                        bool elegivelReembolso = gerenciadorPareamento.EhElegivelParaReembolso(distanciaPassageiro);
                         double valorReembolso = elegivelReembolso ? distanciaPassageiro * 2.50 : 0;
 
                         Console.WriteLine($"Passageiro: {carona.CpfPassageiro}");
@@ -774,7 +771,7 @@ public class MotoristaCRUD
     public void AtualizarSolicitacoes(List<SolicitacaoCarona> novasSolicitacoes)
     {
         solicitacoes = novasSolicitacoes;
-        gerenciadorPareamento = new GerenciadorPareamentoRotas(rotas, solicitacoes, veiculos);
+        gerenciadorPareamento = new GerenciadorRotasUnificado(rotas, solicitacoes, veiculos);
     }
 
     private void VerificarSolicitacoesCarona(Motorista motorista)
@@ -850,7 +847,11 @@ public class MotoristaCRUD
                 "3 - Ver detalhes",
                 "4 - Cancelar carona aceita",
                 "0 - Voltar"
-            };        string opcao = tela.MostrarMenu(opcoes, 10, Console.CursorTop + 2, "Escolha uma opção:");
+            };        
+        
+        // Usar posição segura para o menu
+        int posicaoMenu = Math.Min(Console.CursorTop + 2, Console.WindowHeight - 10);
+        string opcao = tela.MostrarMenu(opcoes, 10, posicaoMenu, "Escolha uma opção:");
 
         switch (opcao)
         {
@@ -1067,5 +1068,127 @@ public class MotoristaCRUD
         }
 
         tela.AguardarTecla();
+    }
+
+    private void FazerCheckOutCarona(Motorista motorista)
+    {
+        tela.LimparTela();
+        tela.DesenharCabecalho("CHECK-OUT CARONA", "Finalizar Carona");
+
+        // Busca caronas com check-in feito para este motorista
+        var caronasEmAndamento = solicitacoes.Where(s => s.CpfMotorista == motorista.Cpf && 
+                                                         s.Status == "Check-in Feito").ToList();
+
+        if (caronasEmAndamento.Count == 0)
+        {
+            tela.ExibirMensagem("Você não possui caronas em andamento para fazer check-out.");
+            tela.ExibirMensagem("Check-out só é possível quando há passageiros com check-in feito.");
+            tela.AguardarTecla();
+            return;
+        }
+
+        Console.SetCursorPosition(2, 8);
+        Console.WriteLine("=== CARONAS PARA CHECK-OUT ===");
+        Console.WriteLine();
+
+        for (int i = 0; i < caronasEmAndamento.Count; i++)
+        {
+            var carona = caronasEmAndamento[i];
+            Console.WriteLine($"[{i + 1}] ID: {carona.Id}");
+            Console.WriteLine($"    Passageiro: {carona.CpfPassageiro}");
+            Console.WriteLine($"    Rota: {carona.EnderecoOrigem} → {carona.EnderecoDestino}");
+            Console.WriteLine($"    Distância: {carona.DistanciaKm:F1}km");
+            
+            if (carona.DataCheckIn.HasValue)
+            {
+                Console.WriteLine($"    Check-in: {carona.DataCheckIn.Value:dd/MM/yyyy HH:mm}");
+            }
+            Console.WriteLine();
+        }
+
+        int posicaoInput = Math.Min(Console.CursorTop + 2, Console.WindowHeight - 5);
+        tela.DefinirProximaLinhaInput(posicaoInput);
+        string numeroStr = tela.LerTexto("Digite o número da carona para fazer check-out (0 para cancelar)");
+        
+        if (numeroStr == "0") return;
+        
+        if (!int.TryParse(numeroStr, out int numero) || numero < 1 || numero > caronasEmAndamento.Count)
+        {
+            tela.ExibirErro("Número de carona inválido!");
+            tela.AguardarTecla();
+            return;
+        }
+
+        var caronaSelecionada = caronasEmAndamento[numero - 1];
+
+        tela.LimparTela();
+        tela.DesenharCabecalho("CONFIRMAÇÃO CHECK-OUT", "Finalizar Carona");
+
+        tela.ExibirInformacoes("=== DADOS DA CARONA ===",
+            $"ID da carona: {caronaSelecionada.Id}",
+            $"Motorista: {motorista.Nome}",
+            $"Passageiro: {caronaSelecionada.CpfPassageiro}",
+            $"Origem: {caronaSelecionada.EnderecoOrigem}",
+            $"Destino: {caronaSelecionada.EnderecoDestino}",
+            $"Distância: {caronaSelecionada.DistanciaKm:F1}km",
+            $"Check-in feito: {caronaSelecionada.DataCheckIn?.ToString("dd/MM/yyyy HH:mm")}");
+
+        Console.SetCursorPosition(2, Math.Min(18, Console.WindowHeight - 5));
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("✅ FINALIZANDO CARONA:");
+        Console.WriteLine("• Confirma que a viagem foi concluída com sucesso");
+        Console.WriteLine("• O passageiro foi levado ao destino");
+        Console.WriteLine("• A carona será marcada como 'Finalizada'");
+        Console.WriteLine("• Reembolso será processado (se aplicável)");
+        Console.ResetColor();
+        Console.WriteLine();
+
+        if (tela.ConfirmarAcao("Confirma o check-out (finalização) desta carona?"))
+        {
+            // Atualiza status para "Finalizada"
+            caronaSelecionada.Status = "Finalizada";
+            caronaSelecionada.DataCheckOut = DateTime.Now;
+
+            // Liberar assento no veículo
+            gerenciadorPareamento.LiberarAssento(motorista.Cpf, caronaSelecionada.CpfPassageiro);
+
+            tela.ExibirSucesso("Check-out realizado com sucesso!");
+            Console.WriteLine();
+            Console.WriteLine("✅ Carona finalizada!");
+            Console.WriteLine("✅ Status atualizado para: Finalizada");
+            Console.WriteLine("✅ Assento liberado no veículo");
+
+            // Verificar se é elegível para reembolso
+            if (gerenciadorPareamento.EhElegivelParaReembolso(caronaSelecionada.DistanciaKm))
+            {
+                double valorReembolso = caronaSelecionada.DistanciaKm * 2.50;
+                Console.WriteLine($"✅ Reembolso de R$ {valorReembolso:F2} será processado");
+                Console.WriteLine("   (Distância maior que 10km)");
+            }
+            else
+            {
+                Console.WriteLine("ℹ️  Sem reembolso corporativo (distância menor que 10km)");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Obrigado por utilizar o sistema de caronas corporativas!");
+        }
+
+        tela.AguardarTecla();
+    }
+
+    public List<SolicitacaoCarona> ObterSolicitacoes()
+    {
+        return solicitacoes;
+    }
+
+    public List<Veiculo> ObterVeiculos()
+    {
+        return veiculos;
+    }
+
+    public List<Rota> ObterRotas()
+    {
+        return rotas;
     }
 }

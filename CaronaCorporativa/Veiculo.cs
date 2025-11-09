@@ -10,7 +10,6 @@ public class Veiculo
     private int ano;
     private string seguro;
     private int capacidade;
-    private List<Reserva> reservas;
 
     // Construtor
     public Veiculo(int idVeiculo, string placa, string marca, string modelo, int ano, string seguro, int capacidade)
@@ -22,7 +21,6 @@ public class Veiculo
         this.ano = ano;
         this.seguro = seguro;
         this.capacidade = capacidade;
-        this.reservas = new List<Reserva>();
     }
 
     // Metodos

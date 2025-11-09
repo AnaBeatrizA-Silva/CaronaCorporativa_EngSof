@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Tela
 {
@@ -40,6 +41,12 @@ public class Tela
     // Monta moldura com caracteres Unicode elegantes
     public void MontarMoldura(int colIni, int linIni, int colFin, int linFin)
     {
+        // Proteção contra buffer overflow
+        linIni = Math.Max(0, Math.Min(linIni, Console.WindowHeight - 1));
+        linFin = Math.Max(0, Math.Min(linFin, Console.WindowHeight - 1));
+        colIni = Math.Max(0, Math.Min(colIni, Console.WindowWidth - 1));
+        colFin = Math.Max(0, Math.Min(colFin, Console.WindowWidth - 1));
+        
         this.LimparArea(colIni, linIni, colFin, linFin);
         
         // Desenha as linhas horizontais (superior e inferior)
@@ -87,6 +94,9 @@ public class Tela
     public string MostrarMenu(List<string> opcoes, int col, int lin, string titulo = "")
     {
         string opcaoEscolhida = "";
+        
+        // Proteção contra buffer overflow
+        lin = Math.Min(lin, Console.WindowHeight - opcoes.Count - 8);
         
         // Calcula dimensoes automaticamente
         int maiorLinha = titulo.Length;
@@ -339,11 +349,13 @@ public class Tela
 
         List<string> opcoes = new List<string>
         {
-            "1 - Listar Motoristas",
-            "2 - Listar Passageiros", 
-            "3 - Gerenciar Alertas",
-            "4 - Gerenciar Reembolsos",
-            "5 - Relatorios Gerenciais",
+            "1 - Gerenciar Motoristas",
+            "2 - Gerenciar Passageiros", 
+            "3 - Gerenciar Caronas",
+            "4 - Gerenciar Alertas",
+            "5 - Gerenciar Reembolsos",
+            "6 - Relatorios Gerenciais",
+            "7 - Testes de Pareamento",
             "0 - Voltar ao Menu Principal"
         };
 
@@ -383,13 +395,14 @@ public class Tela
     // Exibe lista de bairros disponíveis
     public void ExibirBairrosDisponiveis()
     {
-        GerenciadorBairros gerenciador = new GerenciadorBairros();
-        var bairros = gerenciador.ObterBairrosDisponiveis();
+        GerenciadorRotasUnificado gerenciador = new GerenciadorRotasUnificado(null, null, null);
+        var bairros = gerenciador.ListarBairrosElegiveis();
         
         Console.WriteLine("BAIRROS DISPONÍVEIS:");
-        for (int i = 0; i < bairros.Count && i < 10; i++) // Mostrar apenas os primeiros 10
+        var listaBairros = bairros.Take(10).ToList();
+        foreach (var bairro in listaBairros)
         {
-            Console.WriteLine($"• {bairros[i]}");
+            Console.WriteLine($"• {bairro.Nome} ({bairro.DistanciaPerini:F1}km)");
         }
         if (bairros.Count > 10)
         {
