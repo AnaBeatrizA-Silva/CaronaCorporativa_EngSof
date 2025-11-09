@@ -6,7 +6,7 @@ actor Passageiro
 actor Coordenador_Logistica
 
 rectangle "Alertar Automáticos" {
-    usecase "Recerber notificação push 15 minutos antes da partida" as alertaAtu_NotfPush
+        usecase "Recerber notificação push 15 minutos antes da partida" as alertaAtu_NotfPush
     usecase "Receber alerta de cancelamento de rota crítica" as alerAtu_NotfCrit
 }
 

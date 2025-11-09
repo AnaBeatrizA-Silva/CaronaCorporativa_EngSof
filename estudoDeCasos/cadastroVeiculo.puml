@@ -7,7 +7,7 @@ actor RH
 rectangle "Cadastro de Veículos" {
     usecase "Preencher as informações básicas" as cadVei_Info
     usecase "Validar capacidade total de assentos" as cadVei_ValiAssnts
-    usecase "Quantidade de assentos inválida" as cadVei_QntAssents
+    usecase "Mostrar mensagem: Quantidade de assentos inválida" as cadVei_QntAssents
 }
 
 

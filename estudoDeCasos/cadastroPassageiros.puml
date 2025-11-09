@@ -8,9 +8,9 @@ rectangle "Cadastro de Passageiro" as CadPass {
   usecase "Validar colaborador ativo" as cadPass_ValiAtivo
   usecase "Colaborador inativo" as cadPass_Inativo
   usecase "Validar CPF e matrícula únicos" as cadPass_ValiDup
-  usecase "CPF ou matrícula já cadastrados" as cadPass_Dup
+  usecase "Mostrar mensagem: CPF ou matrícula já cadastrados" as cadPass_Dup
   usecase "Cadastrar ponto de origem" as cadPass_Ponto
-  usecase "Gerar ID para passageiro" as cadPass_ID
+  usecase "Mostrar mensagem: Gerar ID para passageiro" as cadPass_ID
 }
 
 RH --> cadPass_Info
